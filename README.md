@@ -83,9 +83,71 @@ curl -X GET "http://localhost:5000/api/books?page=1&limit=5"
 3. Get Book by ID (with reviews & average rating)
   ```bash
  curl -X GET http://localhost:5000/api/books/<bookId>
-  ```
+ ```
 4. Search Books
-   ```bash
-   curl -X GET "http://localhost:5000/api/books/search/query?q=pragmatic"
+ ```bash
+curl -X GET "http://localhost:5000/api/books/search/query?q=pragmatic"
 ```
-   
+✍️ Reviews
+
+1. Add Reviews
+   ```bash
+   curl -X POST http://localhost:5000/api/books/<bookId>/reviews \
+   -H "Authorization: Bearer <token>" \
+   -H "Content-Type: application/json" \
+   -d '{"rating":5,"comment":"Amazing read!"}'
+   ```
+2. Update Review
+   ```bash
+   curl -X PUT http://localhost:5000/api/reviews/<reviewId> \
+   -H "Authorization: Bearer <token>" \
+   -H "Content-Type: application/json" \
+   -d '{"rating":4,"comment":"Updated after re-reading"}'
+
+   ```
+3. Delete Review
+   ```bash
+   curl -X DELETE http://localhost:5000/api/reviews/<reviewId> \
+   -H "Authorization: Bearer <token>"
+   ```
+
+## 📐 Database Schema
+
+Users
+```json
+{
+  "_id": "ObjectId",
+  "username": "String",
+  "email": "String",
+  "password": "String (hashed)",
+  "createdAt": "Date"
+}
+
+```
+
+Books
+```json
+{
+  "_id": "ObjectId",
+  "title": "String",
+  "author": "String",
+  "genre": "String",
+  "description": "String",
+  "createdAt": "Date"
+}
+
+```
+
+Reviews
+```json
+{
+  "_id": "ObjectId",
+  "book": "ObjectId → Books",
+  "user": "ObjectId → Users",
+  "rating": "Number (1-5)",
+  "comment": "String",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+
+```
