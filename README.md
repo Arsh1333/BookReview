@@ -41,10 +41,28 @@ This project allows users to:
      ```bash
       npm sart
       ```
-## The API will be running at: http://localhost:5000
+ The API will be running at: http://localhost:5000
 
 
+## ▶️ How to run locally :
 
-    
-    
+-Ensure MongoDB is running (local or Atlas).
+-Use Postman / ThunderClient / curl to test the endpoints.
+
+## 📌 Example API Requests
+   🔑 Auth:
+   1. Register
+   ```bash
+   curl -X POST http://localhost:5000/api/auth/signup \
+   -H "Content-Type: application/json" \
+  -d '{"username":"arsh","email":"arsh@example.com","password":"mypassword"}'
+   ```
+
+   2. Login
+   ```bash
+  curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"arsh@example.com","password":"mypassword"}'
+  ```
+ Response includes a JWT token.
     
