@@ -60,20 +60,93 @@ bookRouter.get("/:id", async (req, res) => {
 bookRouter.post("/:id/reviews", authMiddleware, async (req, res) => {
   const { id } = req.params;
   const { rating, comment } = req.body;
+
   try {
+    // check if book exists
     const book = await Books.findById(id);
     if (!book) return res.status(404).json({ message: "Book not found" });
 
+    // check if user already reviewed this book
+    const existingReview = await Review.findOne({
+      book: id,
+      user: req.user.id,
+    });
+    if (existingReview) {
+      return res
+        .status(400)
+        .json({ message: "You already reviewed this book" });
+    }
+
     const review = new Review({
       user: req.user.id,
-      book: book._id,
+      book: id,
       rating,
       comment,
     });
+
     await review.save();
-    res.status(201).json({ message: "Review created", reviewId: review._id });
+
+    res.status(201).json({
+      message: "Review created successfully",
+      review,
+    });
   } catch (error) {
     console.error("Review creation error:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+bookRouter.put("/:id", authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+
+    const review = await Review.findById(id);
+    if (!review) return res.status(404).json({ message: "Review not found" });
+
+    if (review.user.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this review" });
+    }
+
+    if (rating !== undefined) {
+      if (rating < 1 || rating > 5) {
+        return res
+          .status(400)
+          .json({ message: "Rating must be between 1 and 5" });
+      }
+      review.rating = rating;
+    }
+    if (comment !== undefined) review.comment = comment;
+
+    await review.save();
+
+    res.json({ message: "Review updated successfully", review });
+  } catch (err) {
+    console.error("Update review error:", err.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+bookRouter.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const review = await Review.findById(id);
+    if (!review) return res.status(404).json({ message: "Review not found" });
+
+    if (review.user.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this review" });
+    }
+
+    await review.deleteOne();
+
+    res.json({ message: "Review deleted successfully" });
+  } catch (err) {
+    console.error("Delete review error:", err.message);
     res.status(500).json({ message: "Internal server error" });
   }
 });
