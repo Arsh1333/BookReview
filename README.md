@@ -50,6 +50,7 @@ This project allows users to:
 -Use Postman / ThunderClient / curl to test the endpoints.
 
 ## 📌 Example API Requests
+
    🔑 Auth:
    1. Register
    ```bash
@@ -65,4 +66,26 @@ This project allows users to:
   -d '{"email":"arsh@example.com","password":"mypassword"}'
   ```
  Response includes a JWT token.
-    
+
+   
+  📚 Books
+  1. Add Book (requires token)
+  ```bash
+   curl -X POST http://localhost:5000/api/books \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"The Pragmatic Programmer","author":"Andrew Hunt","genre":"Programming","description":"A book about pragmatic software development."}'
+```
+2. Get All Books
+```bash
+curl -X GET "http://localhost:5000/api/books?page=1&limit=5"
+```   
+3. Get Book by ID (with reviews & average rating)
+  ```bash
+ curl -X GET http://localhost:5000/api/books/<bookId>
+  ```
+4. Search Books
+   ```bash
+   curl -X GET "http://localhost:5000/api/books/search/query?q=pragmatic"
+```
+   
