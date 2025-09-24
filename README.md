@@ -28,19 +28,19 @@ This project allows users to:
    cd book-review-api
    ```
 ### 2. Install dependencies:
-    ```bash
+  ```bash
     npm install
-    ```
+  ```
 ### 3. Create a .env file in the root directory:
-    ```.env
+  ```.env
     MONGO_URI=your-mongodb-uri
     JWT_SECRET=your-secret-key
     PORT=5000
-    ```
+   ```
 ### 4. Start the server:
-     ```bash
+  ```bash
       npm sart
-      ```
+  ```
  The API will be running at: http://localhost:5000
 
 
@@ -54,7 +54,7 @@ This project allows users to:
    🔑 Auth:
    1. Register
 
-     ```bash
+ ```bash
     curl -X POST http://localhost:5000/api/auth/signup \
     -H "Content-Type: application/json" \
     -d '{"username":"arsh","email":"arsh@example.com","password":"mypassword"}'
