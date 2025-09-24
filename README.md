@@ -53,10 +53,11 @@ This project allows users to:
 
    🔑 Auth:
    1. Register
-   ```bash
-   curl -X POST http://localhost:5000/api/auth/signup \
-   -H "Content-Type: application/json" \
-  -d '{"username":"arsh","email":"arsh@example.com","password":"mypassword"}'
+
+     ```bash
+    curl -X POST http://localhost:5000/api/auth/signup \
+    -H "Content-Type: application/json" \
+    -d '{"username":"arsh","email":"arsh@example.com","password":"mypassword"}'
    ```
 
    2. Login
@@ -64,7 +65,9 @@ This project allows users to:
   curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"arsh@example.com","password":"mypassword"}'
-  ```
+ 
+   ```
+ 
  Response includes a JWT token.
 
    
