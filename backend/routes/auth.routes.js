@@ -13,7 +13,7 @@ authRouter.post("/register", async (req, res) => {
     if (user) {
       return res.status(400).json({ message: "User already exist" });
     }
-    const hashedPassword = await bycrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({ username, email, password: hashedPassword });
     await user.save();
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
